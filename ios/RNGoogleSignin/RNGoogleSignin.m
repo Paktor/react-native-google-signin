@@ -80,16 +80,16 @@ RCT_EXPORT_METHOD(revokeAccess)
     }
 
     NSDictionary *body = @{
-                           @"name": user.profile.name,
-                           @"givenName": user.profile.givenName,
-                           @"familyName": user.profile.familyName,
-                           @"id": user.userID,
+                           @"name": user.profile.name ? user.profile.name : [NSNull null],
+                           @"givenName": user.profile.givenName ? user.profile.givenName : [NSNull null],
+                           @"familyName": user.profile.familyName ? user.profile.familyName : [NSNull null],
+                           @"id": user.userID ? user.userID : [NSNull null],
                            @"photo": imageURL ? imageURL.absoluteString : [NSNull null],
-                           @"email": user.profile.email,
-                           @"idToken": user.authentication.idToken,
-                           @"accessToken": user.authentication.accessToken,
+                           @"email": user.profile.email ? user.profile.email : [NSNull null],
+                           @"idToken": user.authentication.idToken ? user.authentication.idToken : [NSNull null],
+                           @"accessToken": user.authentication.accessToken ? user.authentication.accessToken : [NSNull null],
                            @"serverAuthCode": user.serverAuthCode ? user.serverAuthCode : [NSNull null],
-                           @"accessTokenExpirationDate": [NSNumber numberWithDouble:user.authentication.accessTokenExpirationDate.timeIntervalSinceNow]
+                           @"accessTokenExpirationDate": user.authentication.accessTokenExpirationDate ? [NSNumber numberWithDouble:user.authentication.accessTokenExpirationDate.timeIntervalSinceNow] : [NSNull null]
                            };
 
     return [self.bridge.eventDispatcher sendAppEventWithName:@"RNGoogleSignInSuccess" body:body];
